@@ -5,6 +5,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { OrganizationJsonLd } from "next-seo";
 
 const Index = () => {
+  const A = 2;
   return (
     <Layout>
       <OrganizationJsonLd

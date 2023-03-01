@@ -19,6 +19,7 @@ public/sitemap-*.xml
 
 # cache
 .swc/
+tsconfig.tsbuildinfo
 
 # production
 /build
