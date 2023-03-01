@@ -6,10 +6,10 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { Meta } from "components/common/Meta";
 import { Toaster } from "components/common/Toaster";
 import { ThemeProvider } from "contexts/theme";
+import { appWithTranslation } from "next-i18next";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 import { Router } from "next/router";
-import { appWithTranslation } from "next-i18next";
 import nProgress from "nprogress";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
@@ -33,7 +33,7 @@ function MyApp(props: MyAppProps) {
   return (
     <CacheProvider value={emotionCache}>
       <Head>
-        <title>example</title>
+        <title>Example</title>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
       <Meta />

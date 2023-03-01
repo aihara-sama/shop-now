@@ -10,22 +10,22 @@ const Index = () => {
       <OrganizationJsonLd
         type="Corporation"
         id="https://example.com"
-        logo="https://example.com/static/media/logo.59447da9.png"
-        legalName="example Private Limited"
+        logo="https://example.com/static/media/logo.png"
+        legalName="Example Private Limited"
         name="example"
         address={{
-          streetAddress: "Plot no 8, Parmanand Colony, Block B, Sector 12",
-          addressLocality: "Dwarka",
-          addressRegion: "Delhi",
-          postalCode: "110078",
-          addressCountry: "IN",
+          streetAddress: "xxx",
+          addressLocality: "xxx",
+          addressRegion: "xxx",
+          postalCode: "xxx",
+          addressCountry: "<XX>",
         }}
         contactPoint={[
           {
-            telephone: "+37369763951",
+            telephone: "<tel>",
             contactType: "query",
             email: "john@example.com",
-            areaServed: "MD",
+            areaServed: "<XX>",
             availableLanguage: ["English"],
           },
         ]}

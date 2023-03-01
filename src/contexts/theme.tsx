@@ -2,8 +2,8 @@ import { ThemeProvider as MuiThemeProvider } from "@mui/material";
 import React from "react";
 import { useSelector } from "react-redux";
 import type { RootState } from "store";
-import type { ThemeType } from "theme";
-import { createTheme } from "theme";
+import type { ThemeType } from "theme/index";
+import { createTheme } from "theme/index";
 
 interface ThemeProviderProps {
   children: React.ReactNode;
