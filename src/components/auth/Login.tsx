@@ -49,13 +49,12 @@ export const Login = () => {
         );
         Router.push("/admin");
       } catch (error: unknown) {
-        if (error instanceof FirebaseError) {
-          if (error.code === "auth/wrong-password") {
-            toast.error("Incorrect email and/or password");
-          }
-        } else {
-          toast.error("Something went wrong");
-        }
+        const errorMessage =
+          error instanceof FirebaseError && error.code === "auth/wrong-password"
+            ? "Incorrect email and/or password"
+            : "Something went wrong";
+
+        toast.error(errorMessage);
       }
     },
     validateOnMount: true,
