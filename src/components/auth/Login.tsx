@@ -5,7 +5,6 @@ import {
   CircularProgress,
   IconButton,
   InputAdornment,
-  Paper,
   Stack,
   TextField,
   Typography,
@@ -13,17 +12,17 @@ import {
 import { Form, FormikProvider, useFormik } from "formik";
 import { useTranslation } from "next-i18next";
 import React from "react";
-import { toast } from "react-hot-toast";
-import { useDispatch } from "react-redux";
-import { authSlice } from "slices/auth.slice";
 import type { LoginRequest } from "types/auth";
 import getErrorProps from "utils/getErrorProps";
-import handleError from "utils/handleError";
-import { wait } from "utils/wait";
 import * as Yup from "yup";
 
+import { Logo } from "components/common/Logo";
+import { FirebaseError } from "firebase/app";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import Router from "next/router";
+import { toast } from "react-hot-toast";
+
 export const Login = () => {
-  const dispatch = useDispatch();
   const { t } = useTranslation("common");
   const [showPassword, setShowPassword] = React.useState<boolean>(false);
 
@@ -43,13 +42,20 @@ export const Login = () => {
     onSubmit: async (values, actions) => {
       actions.setSubmitting(true);
       try {
-        const response = await wait(1000, values);
-        dispatch(authSlice.actions.login(response));
-        toast.success("Logged in succesfully");
-      } catch (error) {
-        handleError(error);
-      } finally {
-        actions.setSubmitting(false);
+        await signInWithEmailAndPassword(
+          getAuth(),
+          values.email,
+          values.password
+        );
+        Router.push("/admin");
+      } catch (error: unknown) {
+        if (error instanceof FirebaseError) {
+          if (error.code === "auth/wrong-password") {
+            toast.error("Incorrect email and/or password");
+          }
+        } else {
+          toast.error("Something went wrong");
+        }
       }
     },
     validateOnMount: true,
@@ -65,42 +71,48 @@ export const Login = () => {
           height: "100%",
         }}
       >
-        <Paper sx={{ p: 3, minWidth: "min(100%, 350px)" }}>
-          <Box component={Form}>
-            <Stack gap={3}>
-              <Typography variant="h4">{t("Login")}</Typography>
-              <TextField
-                {...formik.getFieldProps("email")}
-                {...getErrorProps(formik, "email")}
-                label="Email"
-                type="email"
-              />
-              <TextField
-                {...formik.getFieldProps("password")}
-                {...getErrorProps(formik, "password")}
-                label="Password"
-                type={showPassword ? "text" : "password"}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton
-                        onClick={() => setShowPassword((prev) => !prev)}
-                      >
-                        {showPassword ? <Visibility /> : <VisibilityOff />}
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-              />
-              <Button
-                type="submit"
-                disabled={formik.isSubmitting || !formik.isValid}
-              >
-                {formik.isSubmitting ? <CircularProgress /> : "Login"}
-              </Button>
-            </Stack>
-          </Box>
-        </Paper>
+        <Box component={Form} width={371}>
+          <Stack gap={3}>
+            <Box display="flex" justifyContent="center">
+              <Logo />
+            </Box>
+            <Typography variant="h4" color="text.secondary" textAlign="center">
+              {t("Admin Login")}
+            </Typography>
+            <TextField
+              size="small"
+              {...formik.getFieldProps("email")}
+              {...getErrorProps(formik, "email")}
+              label="Email"
+              type="email"
+            />
+            <TextField
+              size="small"
+              {...formik.getFieldProps("password")}
+              {...getErrorProps(formik, "password")}
+              label="Password"
+              type={showPassword ? "text" : "password"}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={() => setShowPassword((prev) => !prev)}
+                    >
+                      {showPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
+            <Button
+              type="submit"
+              disabled={formik.isSubmitting || !formik.isValid}
+              color="primary"
+            >
+              {formik.isSubmitting ? <CircularProgress /> : "Login"}
+            </Button>
+          </Stack>
+        </Box>
       </Box>
     </FormikProvider>
   );

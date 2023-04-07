@@ -84,6 +84,18 @@ const components: ThemeOptions["components"] = {
       size: 26,
     },
   },
+  MuiTextField: {
+    styleOverrides: {
+      root: {
+        ".MuiFormHelperText-root": {
+          marginLeft: 0,
+        },
+        ".MuiInputBase-root": {
+          paddingRight: 0,
+        },
+      },
+    },
+  },
   MuiButton: {
     defaultProps: {
       variant: "contained",

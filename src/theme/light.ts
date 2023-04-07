@@ -14,9 +14,9 @@ const text: PaletteOptions["text"] = {
 const divider: PaletteOptions["divider"] = "rgba(0, 0, 0, 0.12)";
 
 const primary: PaletteOptions["primary"] = {
-  main: "#1976d2",
+  main: "#ED7506",
   light: "#42a5f5",
-  dark: "#1565c0",
+  dark: "#EA7102",
   contrastText: "#fff",
 };
 
