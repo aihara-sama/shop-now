@@ -1,7 +1,7 @@
-import { Box } from "@mui/material";
+import AdminLayout from "components/layouts/AdminLayout";
 
 const Dashboard = () => {
-  return <Box>Dashboard</Box>;
+  return <AdminLayout>Dashboard</AdminLayout>;
 };
 
 export default Dashboard;

@@ -15,14 +15,14 @@ const divider: PaletteOptions["divider"] = "rgba(0, 0, 0, 0.12)";
 
 const primary: PaletteOptions["primary"] = {
   main: "#ED7506",
-  light: "#42a5f5",
+  light: "#ED7506",
   dark: "#EA7102",
   contrastText: "#fff",
 };
 
 const secondary: PaletteOptions["secondary"] = {
   main: "#9c27b0",
-  light: "#ba68c8",
+  light: "#E4E4E4",
   dark: "#7b1fa2",
   contrastText: "#fff",
 };
