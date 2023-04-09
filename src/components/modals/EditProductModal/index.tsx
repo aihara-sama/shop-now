@@ -12,7 +12,7 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Typography from "@mui/material/Typography";
 import UploadButton from "components/common/buttons/UploadButton";
-import { getDatabase, ref as refDB, set } from "firebase/database";
+import { getDatabase, ref as refDB, update } from "firebase/database";
 import { useFormik } from "formik";
 import filterObject from "lodash.pickby";
 import type { FunctionComponent } from "react";
@@ -23,22 +23,19 @@ import { Categories } from "types/product";
 import { capitalize } from "utils/capitalize";
 import getErrorProps from "utils/getErrorProps";
 import { snakeCase } from "utils/snakeCase";
-import { v4 as uuid } from "uuid";
 import * as Yup from "yup";
 
 interface IProps {
   open: boolean;
   handleClose: () => void;
+  product: IProduct;
 }
 
-const initialValues: IProduct = {
-  name: "",
-  category: Categories.CELL_PHONES,
-  price: "1",
-  id: uuid(),
-};
-
-const NewProductModal: FunctionComponent<IProps> = ({ open, handleClose }) => {
+const EditProductModal: FunctionComponent<IProps> = ({
+  open,
+  handleClose,
+  product,
+}) => {
   // e.g. weight, color, etc.
   const [productExtraProperties, setProductExtraProperties] = useState<
     string[]
@@ -54,14 +51,14 @@ const NewProductModal: FunctionComponent<IProps> = ({ open, handleClose }) => {
   );
 
   const formik = useFormik<IProduct>({
-    initialValues,
+    initialValues: { ...product },
     validationSchema,
     onSubmit: async (values, actions) => {
       actions.setSubmitting(true);
       const db = getDatabase();
       try {
-        await set(refDB(db, `products/${values.id}`), values);
-        toast.success("Product created successfully");
+        await update(refDB(db, `products/${values.id}`), values);
+        toast.success("Product updated successfully");
       } catch (error) {
         toast.error("Something went wrong");
       } finally {
@@ -70,7 +67,7 @@ const NewProductModal: FunctionComponent<IProps> = ({ open, handleClose }) => {
         onClose();
       }
     },
-    validateOnMount: true,
+    validateOnMount: false,
   });
 
   useEffect(() => {
@@ -88,7 +85,6 @@ const NewProductModal: FunctionComponent<IProps> = ({ open, handleClose }) => {
       })
     );
     formik.resetForm();
-    initialValues.id = uuid();
     handleClose();
   };
 
@@ -146,7 +142,7 @@ const NewProductModal: FunctionComponent<IProps> = ({ open, handleClose }) => {
             variant="h3"
             ml="auto"
           >
-            Create Product
+            Update Product
           </Typography>
           <CloseIcon
             sx={{
@@ -257,7 +253,7 @@ const NewProductModal: FunctionComponent<IProps> = ({ open, handleClose }) => {
               {formik.isSubmitting && (
                 <CircularProgress color="inherit" size="24.5px" />
               )}
-              {!formik.isSubmitting && "Create product"}
+              {!formik.isSubmitting && "Update product"}
             </Button>
           </Box>
         </Box>
@@ -266,4 +262,4 @@ const NewProductModal: FunctionComponent<IProps> = ({ open, handleClose }) => {
   );
 };
 
-export default NewProductModal;
+export default EditProductModal;

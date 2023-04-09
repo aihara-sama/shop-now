@@ -107,10 +107,12 @@ const AdminLayout: FC<PropsWithChildren> = ({ children }) => {
               >
                 New product
               </Button>
-              <NewProductModal
-                open={isNewProductModalOpen}
-                handleClose={() => setIsNewProductModalOpen(false)}
-              />
+              {isNewProductModalOpen && (
+                <NewProductModal
+                  open={isNewProductModalOpen}
+                  handleClose={() => setIsNewProductModalOpen(false)}
+                />
+              )}
             </Box>
             {children}
           </Box>
