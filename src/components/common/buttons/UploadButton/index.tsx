@@ -31,6 +31,8 @@ const UploadButton: FunctionComponent<IProps> = ({
     if (file) {
       if (!/^image\/(png|jpe?g)$/.test(file.type)) {
         toast.error("Please provide only PNG or JPG/JPEG files");
+      } else if (file.size >= 5242880 /* more then 5 MB */) {
+        toast.error("Maximum file size is 5 MB");
       } else {
         const storage = getStorage();
         const storageRef = ref(storage, uuid());
