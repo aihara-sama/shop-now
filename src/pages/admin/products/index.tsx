@@ -69,6 +69,7 @@ const PoductRow: FunctionComponent<{ product: IProduct; idx: number }> = ({
           sx={{ cursor: "pointer" }}
           size="small"
           onClick={() => remove(refDB(getDatabase(), `products/${product.id}`))}
+          color="error"
         >
           Remove
         </Button>
