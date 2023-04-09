@@ -9,15 +9,18 @@ import AdminGuard from "components/auth/AdminGuard";
 import { Logo } from "components/common/Logo";
 import AddIcon from "components/icons/Add";
 import LogOutIcon from "components/icons/LogOut";
+import NewProductModal from "components/modals/NewProductModal";
 import { getAuth, signOut } from "firebase/auth";
 import Link from "next/link";
 import Router, { useRouter } from "next/router";
 import type { FC, PropsWithChildren } from "react";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import { menuList } from "./sidebar-menu";
 
 const AdminLayout: FC<PropsWithChildren> = ({ children }) => {
   const { route } = useRouter();
+  const [isNewProductModalOpen, setIsNewProductModalOpen] = useState(false);
 
   const logOut = async () => {
     try {
@@ -98,11 +101,16 @@ const AdminLayout: FC<PropsWithChildren> = ({ children }) => {
             <Box display="flex" gap={2} alignItems="center">
               <TextField fullWidth size="small" label="Search" />
               <Button
+                onClick={() => setIsNewProductModalOpen(true)}
                 sx={{ whiteSpace: "nowrap", py: 0.9, px: 2.4 }}
                 endIcon={<AddIcon />}
               >
                 New product
               </Button>
+              <NewProductModal
+                open={isNewProductModalOpen}
+                handleClose={() => setIsNewProductModalOpen(false)}
+              />
             </Box>
             {children}
           </Box>
