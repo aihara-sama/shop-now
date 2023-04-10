@@ -4,7 +4,8 @@ export interface IProduct {
   category: Categories;
   id: string;
   image?: string;
-  [key: string]: string | number;
+
+  [key: string]: string;
 }
 
 export enum Categories {

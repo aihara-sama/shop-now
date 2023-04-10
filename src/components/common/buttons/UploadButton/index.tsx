@@ -8,14 +8,16 @@ import { v4 as uuid } from "uuid";
 interface IProps {
   onUpload: (url: string) => void;
   handleIsUploading: (isUploading: boolean) => void;
+  defaultImageUrl?: string;
 }
 
 const UploadButton: FunctionComponent<IProps> = ({
   onUpload,
   handleIsUploading,
+  defaultImageUrl = "",
 }) => {
   const fileRef = useRef<HTMLInputElement>();
-  const [imageUrl, setImageUrl] = useState<string>("");
+  const [imageUrl, setImageUrl] = useState<string>(defaultImageUrl);
   const [isUploading, setIsUploading] = useState(false);
 
   useEffect(() => {
@@ -53,9 +55,7 @@ const UploadButton: FunctionComponent<IProps> = ({
         color={imageUrl ? "error" : "info"}
         fullWidth
         sx={{ mb: 1, cursor: "pointer" }}
-        onClick={() =>
-          imageUrl ? setImageUrl(undefined) : fileRef.current.click()
-        }
+        onClick={() => (imageUrl ? setImageUrl("") : fileRef.current.click())}
       >
         {isUploading && <CircularProgress size="24.5px" />}
         {!isUploading && `${imageUrl ? "Remove" : "Upload"} image`}

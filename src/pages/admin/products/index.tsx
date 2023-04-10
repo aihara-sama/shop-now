@@ -90,10 +90,15 @@ const Products = () => {
 
   return (
     <AdminLayout>
-      <Box>
-        <Typography variant="h3">Products</Typography>
+      <Typography variant="h3">Products</Typography>
 
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+      <Box
+        sx={{
+          overflow: "auto",
+          height: "calc(100% - 185px)",
+        }}
+      >
+        <Table sx={{ minWidth: 650 }} aria-label="simple table" stickyHeader>
           <TableHead>
             <TableRow>
               <TableCell>#</TableCell>

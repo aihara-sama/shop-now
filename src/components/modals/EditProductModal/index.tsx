@@ -24,6 +24,8 @@ import { capitalize } from "utils/capitalize";
 import getErrorProps from "utils/getErrorProps";
 import { snakeCase } from "utils/snakeCase";
 import * as Yup from "yup";
+import type { RequiredStringSchema } from "yup/lib/string";
+import type { AnyObject } from "yup/lib/types";
 
 interface IProps {
   open: boolean;
@@ -37,9 +39,15 @@ const EditProductModal: FunctionComponent<IProps> = ({
   product,
 }) => {
   // e.g. weight, color, etc.
+
+  const extraProperties = filterObject(
+    product,
+    (_, key) => !["id", "image", "category", "price", "name"].includes(key)
+  );
+
   const [productExtraProperties, setProductExtraProperties] = useState<
     string[]
-  >([]);
+  >(Object.keys(extraProperties));
 
   const [validationSchema, setValidationSchema] = useState(
     Yup.object().shape({
@@ -73,6 +81,20 @@ const EditProductModal: FunctionComponent<IProps> = ({
   useEffect(() => {
     formik.validateForm();
   }, [validationSchema]);
+  useEffect(() => {
+    const additionalValidationSchemaShape: Record<
+      string,
+      RequiredStringSchema<string, AnyObject>
+    > = {};
+    Object.keys(extraProperties).forEach((prop) => {
+      additionalValidationSchemaShape[prop] = Yup.string().required(
+        "This field can't be empty"
+      );
+    });
+    setValidationSchema((prev) =>
+      prev.concat(Yup.object().shape(additionalValidationSchemaShape))
+    );
+  }, []);
 
   const onClose = () => {
     setProductExtraProperties([]);
@@ -231,6 +253,7 @@ const EditProductModal: FunctionComponent<IProps> = ({
 
           <Box>
             <UploadButton
+              defaultImageUrl={product.image}
               handleIsUploading={(isUploading) => {
                 if (isUploading) {
                   formik.setFieldError("image", "Wait for uploading...");
