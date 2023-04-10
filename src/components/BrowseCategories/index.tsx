@@ -3,7 +3,6 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { Box, Link as MuiLink, Typography } from "@mui/material";
 import Link from "next/link";
 import { Categories } from "types/product";
-import { snakeCase } from "utils/snakeCase";
 
 const BrowseCategories = () => {
   return (
@@ -36,7 +35,7 @@ const BrowseCategories = () => {
               underline="none"
               component={Link}
               key={idx}
-              href={`/products?cat=${snakeCase(cat)}`}
+              href={`/products?category=${encodeURIComponent(cat)}`}
               sx={{
                 display: "flex",
                 justifyContent: "space-between",
