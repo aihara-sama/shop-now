@@ -25,7 +25,7 @@ const BrowseCategories = () => {
       <Box
         display="flex"
         flexDirection="column"
-        gap={2}
+        gap={2.245}
         bgcolor="secondary.light"
         p={2}
       >

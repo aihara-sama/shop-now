@@ -7,7 +7,9 @@ export const Layout: FC<PropsWithChildren> = ({ children }) => {
   return (
     <Box component="main" height="100%">
       <Header />
-      <Container component="section">{children}</Container>
+      <Container sx={{ pb: 5 }} component="section">
+        {children}
+      </Container>
     </Box>
   );
 };

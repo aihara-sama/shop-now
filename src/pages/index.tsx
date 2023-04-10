@@ -1,12 +1,60 @@
-import { Box } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import BrowseCategories from "components/BrowseCategories";
 import HeroProducts from "components/HeroProducts";
+import Services from "components/Services";
+import ProductCard from "components/common/ProductCard";
 import { Layout } from "components/layouts/Layout";
+import {
+  equalTo,
+  getDatabase,
+  limitToFirst,
+  onValue,
+  orderByChild,
+  query,
+  ref as refDB,
+} from "firebase/database";
 import type { GetStaticProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { OrganizationJsonLd } from "next-seo";
+import { useEffect, useState } from "react";
+import type { IProduct } from "types/product";
+import { Categories } from "types/product";
 
 const Index = () => {
+  const [laptops, setLaptops] = useState<IProduct[]>([]);
+  const [phones, setPhones] = useState<IProduct[]>([]);
+  const [furnitures, setFurnitures] = useState<IProduct[]>([]);
+
+  useEffect(() => {
+    onValue(
+      query(
+        refDB(getDatabase(), "products"),
+        orderByChild("category"),
+        equalTo(Categories.LAPTOPS),
+        limitToFirst(4)
+      ),
+      (snapshot) => setLaptops(Object.values(snapshot.val() || {}))
+    );
+    onValue(
+      query(
+        refDB(getDatabase(), "products"),
+        orderByChild("category"),
+        equalTo(Categories.CELL_PHONES),
+        limitToFirst(4)
+      ),
+      (snapshot) => setPhones(Object.values(snapshot.val() || {}))
+    );
+    onValue(
+      query(
+        refDB(getDatabase(), "products"),
+        orderByChild("category"),
+        equalTo(Categories.FURNITURES),
+        limitToFirst(4)
+      ),
+      (snapshot) => setFurnitures(Object.values(snapshot.val() || {}))
+    );
+  }, []);
+
   return (
     <Layout>
       <OrganizationJsonLd
@@ -40,6 +88,52 @@ const Index = () => {
           <HeroProducts />
         </Box>
       </Box>
+      <Box my={8}>
+        <Services />
+      </Box>
+
+      {!!phones.length && (
+        <Box mb={5}>
+          <Typography variant="h2" mb={2}>
+            Phones
+          </Typography>
+          <Grid container spacing={3}>
+            {phones.map((phone, idx) => (
+              <Grid key={idx} item xs={12} sm={6} md={4} lg={3}>
+                <ProductCard product={phone} />
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
+      )}
+      {!!furnitures.length && (
+        <Box mb={5}>
+          <Typography variant="h2" mb={2}>
+            Furnitures
+          </Typography>
+          <Grid container spacing={3}>
+            {furnitures.map((furniture, idx) => (
+              <Grid key={idx} item xs={12} sm={6} md={4} lg={3}>
+                <ProductCard product={furniture} />
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
+      )}
+      {!!laptops.length && (
+        <Box mb={5}>
+          <Typography variant="h2" mb={2}>
+            Laptops
+          </Typography>
+          <Grid container spacing={3}>
+            {laptops.map((laptop, idx) => (
+              <Grid key={idx} item xs={12} sm={6} md={4} lg={3}>
+                <ProductCard product={laptop} />
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
+      )}
     </Layout>
   );
 };
