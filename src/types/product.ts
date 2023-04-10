@@ -10,4 +10,6 @@ export interface IProduct {
 
 export enum Categories {
   CELL_PHONES = "Cell Phones",
+  LAPTOPS = "Laptops",
+  FURNITURES = "Furnitures",
 }

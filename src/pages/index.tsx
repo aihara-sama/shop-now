@@ -1,4 +1,6 @@
 import { Box } from "@mui/material";
+import BrowseCategories from "components/BrowseCategories";
+import HeroProducts from "components/HeroProducts";
 import { Layout } from "components/layouts/Layout";
 import type { GetStaticProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -32,14 +34,12 @@ const Index = () => {
         sameAs={["https://shop-now.com"]}
         url="https://shop-now.com"
       />
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100%",
-        }}
-      ></Box>
+      <Box height="100%" display="flex" gap={3} pt={3}>
+        <BrowseCategories />
+        <Box flex={1}>
+          <HeroProducts />
+        </Box>
+      </Box>
     </Layout>
   );
 };

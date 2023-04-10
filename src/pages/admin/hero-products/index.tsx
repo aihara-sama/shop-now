@@ -72,9 +72,9 @@ const HeroProducts = () => {
               {imageUrl1 && (
                 <Box
                   sx={{
-                    backgroundImage: `url(${imageUrl1})`,
                     height: "100%",
                     width: "100%",
+                    backgroundImage: `url(${imageUrl1})`,
                     backgroundSize: "cover",
                     backgroundRepeat: "no-repeat",
                     borderRadius: 3,

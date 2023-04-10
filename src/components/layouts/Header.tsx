@@ -2,6 +2,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import MenuIcon from "@mui/icons-material/Menu";
 import {
   Box,
+  Container,
   Hidden,
   IconButton,
   Link as MuiLink,
@@ -48,7 +49,7 @@ export const Header = () => {
           </Typography>
         </Box>
       </Box>
-      <Box
+      <Container
         sx={{
           px: 2,
           display: "flex",
@@ -115,7 +116,7 @@ export const Header = () => {
           isDrawer={isMobileNavbarDrawerOpen}
           setIsDrawer={setIsMobileNavbarDrawerOpen}
         />
-      </Box>
+      </Container>
     </Box>
   );
 };
