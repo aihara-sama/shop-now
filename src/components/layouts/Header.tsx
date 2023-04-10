@@ -1,22 +1,23 @@
 import CloseIcon from "@mui/icons-material/Close";
 import MenuIcon from "@mui/icons-material/Menu";
-import { Box, Button, Hidden, IconButton } from "@mui/material";
-import { LanguageToggle } from "components/common/LanguageToggle";
+import {
+  Box,
+  Hidden,
+  IconButton,
+  Link as MuiLink,
+  Typography,
+} from "@mui/material";
+import Search from "components/Search";
+import LanguageToggle from "components/common/LanguageToggle";
 import { Logo } from "components/common/Logo";
 import MobileNavbarDrawer from "components/common/MobileNavbarDrawer";
-import { ThemeToggle } from "components/common/ThemeToggle";
+import AccountIcon from "components/icons/Account";
+import CartIcon from "components/icons/Cart";
+import StoreIcon from "components/icons/Store";
 import Link from "next/link";
-import { useTranslation } from "next-i18next";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { authSlice } from "slices/auth.slice";
-import type { RootState } from "store";
 
 export const Header = () => {
-  const dispatch = useDispatch();
-  const { t } = useTranslation("common");
-  const { isAuthenticated } = useSelector((state: RootState) => state.auth);
-
   const [isMobileNavbarDrawerOpen, setIsMobileNavbarDrawerOpen] =
     useState<boolean>(false);
 
@@ -24,11 +25,6 @@ export const Header = () => {
     <Box
       component="header"
       sx={{
-        height: 60,
-        px: 2,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
         borderBottom: "1px solid",
         borderColor: "divider",
         position: "sticky",
@@ -38,42 +34,88 @@ export const Header = () => {
         bgcolor: "background.default",
       }}
     >
-      <Link href="/">
-        <Logo />
-      </Link>
       <Box>
-        <LanguageToggle />
-        <ThemeToggle />
-        {isAuthenticated ? (
-          <Button
-            variant="text"
-            onClick={() => dispatch(authSlice.actions.logout())}
-          >
-            {t("Logout")}
-          </Button>
-        ) : (
-          <Button variant="text" component={Link} href="/login">
-            {t("Login")}
-          </Button>
-        )}
-
-        <Hidden smUp>
-          <IconButton
-            sx={{ px: 0 }}
-            onClick={() => setIsMobileNavbarDrawerOpen((prev) => !prev)}
-          >
-            {!isMobileNavbarDrawerOpen ? (
-              <MenuIcon fontSize="large" />
-            ) : (
-              <CloseIcon fontSize="large" />
-            )}
-          </IconButton>
-        </Hidden>
+        <Box
+          display="flex"
+          gap={1}
+          py={1}
+          bgcolor="secondary.light"
+          justifyContent="center"
+        >
+          <StoreIcon />
+          <Typography color="text.secondary">
+            Up to 70% for the entire store!
+          </Typography>
+        </Box>
       </Box>
-      <MobileNavbarDrawer
-        isDrawer={isMobileNavbarDrawerOpen}
-        setIsDrawer={setIsMobileNavbarDrawerOpen}
-      />
+      <Box
+        sx={{
+          px: 2,
+          display: "flex",
+          alignItems: "center",
+          height: 60,
+        }}
+      >
+        <Logo />
+        <Box ml={5} flexBasis="500px" mr="auto">
+          <Search />
+        </Box>
+        <Box display="flex" alignItems="center" gap={2} mr={2} ml={2}>
+          <MuiLink component={Link} href="/login" underline="none">
+            <Box display="flex" alignItems="center" gap={1}>
+              <AccountIcon />
+              <Box display="flex" flexDirection="column">
+                <Typography
+                  lineHeight={1.1}
+                  variant="caption"
+                  color="text.secondary"
+                >
+                  Sign In
+                </Typography>
+                <Typography lineHeight={1.1} variant="body1">
+                  Account
+                </Typography>
+              </Box>
+            </Box>
+          </MuiLink>
+          <MuiLink component={Link} href="/cart" underline="none">
+            <Box display="flex" alignItems="center" gap={1}>
+              <CartIcon />
+              <Box display="flex" flexDirection="column">
+                <Typography
+                  lineHeight={1.1}
+                  variant="caption"
+                  color="text.secondary"
+                >
+                  Total
+                </Typography>
+                <Typography lineHeight={1.1} variant="body1">
+                  $0.00
+                </Typography>
+              </Box>
+            </Box>
+          </MuiLink>
+        </Box>
+        <Box>
+          <LanguageToggle />
+          <Hidden smUp>
+            <IconButton
+              sx={{ px: 0 }}
+              onClick={() => setIsMobileNavbarDrawerOpen((prev) => !prev)}
+            >
+              {!isMobileNavbarDrawerOpen ? (
+                <MenuIcon fontSize="large" />
+              ) : (
+                <CloseIcon fontSize="large" />
+              )}
+            </IconButton>
+          </Hidden>
+        </Box>
+        <MobileNavbarDrawer
+          isDrawer={isMobileNavbarDrawerOpen}
+          setIsDrawer={setIsMobileNavbarDrawerOpen}
+        />
+      </Box>
     </Box>
   );
 };

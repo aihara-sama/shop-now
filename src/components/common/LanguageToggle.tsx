@@ -1,24 +1,33 @@
-import { Button } from "@mui/material";
+import { MenuItem, Select } from "@mui/material";
 import { useRouter } from "next/router";
 import { countryToFlag } from "utils/countryToFlag";
 
-export const LanguageToggle = () => {
+const LanguageToggle = () => {
   const router = useRouter();
-  const { pathname, asPath, query, locale } = router;
+  const { pathname, asPath, query, locale, locales } = router;
 
-  const toggleLanguage = () => {
+  const toggleLanguage = (lg: string) => {
     router.push({ pathname, query }, asPath, {
-      locale: locale === "en" ? "fr" : "en",
+      locale: lg,
     });
   };
 
   return (
-    <Button
-      variant="text"
-      onClick={toggleLanguage}
-      sx={{ p: 0, minWidth: 32, fontSize: 16 }}
+    <Select
+      size="small"
+      data-testid="select-locale"
+      value={locale}
+      onChange={(e) => {
+        toggleLanguage(e.target.value);
+      }}
     >
-      {locale === "en" ? countryToFlag("US") : countryToFlag("FR")}
-    </Button>
+      {locales.map((val, idx) => (
+        <MenuItem data-testid={`menu-item-${val}`} value={val} key={idx}>
+          {countryToFlag(val.toUpperCase())}
+        </MenuItem>
+      ))}
+    </Select>
   );
 };
+
+export default LanguageToggle;
