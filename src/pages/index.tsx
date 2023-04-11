@@ -7,7 +7,7 @@ import { Layout } from "components/layouts/Layout";
 import {
   equalTo,
   getDatabase,
-  limitToFirst,
+  limitToLast,
   onValue,
   orderByChild,
   query,
@@ -31,7 +31,7 @@ const Index = () => {
         refDB(getDatabase(), "products"),
         orderByChild("category"),
         equalTo(Categories.LAPTOPS),
-        limitToFirst(4)
+        limitToLast(4)
       ),
       (snapshot) => setLaptops(Object.values(snapshot.val() || {}))
     );
@@ -40,7 +40,7 @@ const Index = () => {
         refDB(getDatabase(), "products"),
         orderByChild("category"),
         equalTo(Categories.CELL_PHONES),
-        limitToFirst(4)
+        limitToLast(4)
       ),
       (snapshot) => setPhones(Object.values(snapshot.val() || {}))
     );
@@ -49,7 +49,7 @@ const Index = () => {
         refDB(getDatabase(), "products"),
         orderByChild("category"),
         equalTo(Categories.FURNITURES),
-        limitToFirst(4)
+        limitToLast(4)
       ),
       (snapshot) => setFurnitures(Object.values(snapshot.val() || {}))
     );

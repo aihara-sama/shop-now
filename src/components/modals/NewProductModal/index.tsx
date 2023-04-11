@@ -36,6 +36,7 @@ const initialValues: IProduct = {
   category: Categories.CELL_PHONES,
   price: "1",
   id: uuid(),
+  description: "",
 };
 
 const NewProductModal: FunctionComponent<IProps> = ({ open, handleClose }) => {
@@ -49,6 +50,7 @@ const NewProductModal: FunctionComponent<IProps> = ({ open, handleClose }) => {
       name: Yup.string().required("Please enter a name"),
       category: Yup.string().required("Please select a category"),
       price: Yup.string().required("Please enter a price"),
+      description: Yup.string().required("Please enter a description"),
       image: Yup.string().optional(),
     })
   );
@@ -84,6 +86,7 @@ const NewProductModal: FunctionComponent<IProps> = ({ open, handleClose }) => {
         name: Yup.string().required("Please enter a name"),
         category: Yup.string().required("Please select a category"),
         price: Yup.string().required("Please enter a price"),
+        description: Yup.string().required("Please enter a description"),
         image: Yup.string().optional(),
       })
     );
@@ -166,6 +169,14 @@ const NewProductModal: FunctionComponent<IProps> = ({ open, handleClose }) => {
             {...formik.getFieldProps("name")}
             {...getErrorProps(formik, "name")}
             label="Product name"
+          />
+          <TextField
+            sx={{ mt: 2 }}
+            fullWidth
+            size="small"
+            {...formik.getFieldProps("description")}
+            {...getErrorProps(formik, "description")}
+            label="Product description"
           />
 
           <FormControl sx={{ my: 2 }} fullWidth>

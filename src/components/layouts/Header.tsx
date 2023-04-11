@@ -12,13 +12,17 @@ import Search from "components/Search";
 import LanguageToggle from "components/common/LanguageToggle";
 import { Logo } from "components/common/Logo";
 import MobileNavbarDrawer from "components/common/MobileNavbarDrawer";
-import AccountIcon from "components/icons/Account";
 import CartIcon from "components/icons/Cart";
 import StoreIcon from "components/icons/Store";
 import Link from "next/link";
 import { useState } from "react";
+import { useSelector } from "react-redux";
+import type { ApplicationState } from "store";
 
 export const Header = () => {
+  const { products } = useSelector<ApplicationState, ApplicationState["cart"]>(
+    (state) => state.cart
+  );
   const [isMobileNavbarDrawerOpen, setIsMobileNavbarDrawerOpen] =
     useState<boolean>(false);
 
@@ -62,23 +66,6 @@ export const Header = () => {
           <Search />
         </Box>
         <Box display="flex" alignItems="center" gap={2} mr={2} ml={2}>
-          <MuiLink component={Link} href="/login" underline="none">
-            <Box display="flex" alignItems="center" gap={1}>
-              <AccountIcon />
-              <Box display="flex" flexDirection="column">
-                <Typography
-                  lineHeight={1.1}
-                  variant="caption"
-                  color="text.secondary"
-                >
-                  Sign In
-                </Typography>
-                <Typography lineHeight={1.1} variant="body1">
-                  Account
-                </Typography>
-              </Box>
-            </Box>
-          </MuiLink>
           <MuiLink component={Link} href="/cart" underline="none">
             <Box display="flex" alignItems="center" gap={1}>
               <CartIcon />
@@ -91,7 +78,7 @@ export const Header = () => {
                   Total
                 </Typography>
                 <Typography lineHeight={1.1} variant="body1">
-                  $0.00
+                  ${products.reduce((acc, val) => acc + +val.price, 0)}
                 </Typography>
               </Box>
             </Box>

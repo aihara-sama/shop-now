@@ -1,7 +1,12 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Link as MuiLink, Typography } from "@mui/material";
 import AddToCartIcon from "components/icons/AddToCart";
+import RemoveFromCartIcon from "components/icons/RemoveFromCart";
 import StarIcon from "components/icons/Star";
+import Link from "next/link";
 import type { FunctionComponent } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart, removeFromCart } from "slices/cart.slice";
+import type { AppDispatch, ApplicationState } from "store";
 import type { IProduct } from "types/product";
 
 interface IProps {
@@ -9,51 +14,60 @@ interface IProps {
 }
 
 const ProductCard: FunctionComponent<IProps> = ({ product }) => {
+  const { products } = useSelector<ApplicationState, ApplicationState["cart"]>(
+    (state) => state.cart
+  );
+  const isProductInCart = !!products.find(({ id }) => id === product.id);
+  const dispatch = useDispatch<AppDispatch>();
+
   return (
     <Box>
       {/* header */}
-      <Box
-        width="100%"
-        p={5}
-        position="relative"
-        height={250}
-        bgcolor="secondary.light"
-      >
+      <MuiLink href={`/product/${product.id}`} component={Link}>
         <Box
-          sx={{
-            backgroundImage: `url(${
-              product.image || process.env.DEFAULT_PRODUCT_IMAGE_URL
-            })`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
-            width: "100%",
-            height: "100%",
-          }}
-        />
-        <Box
-          bottom="8px"
-          left="8px"
-          position="absolute"
-          alignItems="center"
-          display="flex"
-          gap={0.5}
-          bgcolor="primary.main"
-          borderRadius={5}
-          py={0.7}
-          px={1.3}
+          width="100%"
+          p={5}
+          position="relative"
+          height={250}
+          bgcolor="secondary.light"
         >
-          <StarIcon />{" "}
-          <Typography
-            lineHeight={1}
-            mb="-1px"
-            fontSize="13px"
-            color="primary.contrastText"
+          <Box
+            sx={{
+              backgroundImage: `url(${
+                product.image || process.env.DEFAULT_PRODUCT_IMAGE_URL
+              })`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+              width: "100%",
+              height: "100%",
+            }}
+          />
+          <Box
+            bottom="8px"
+            left="8px"
+            position="absolute"
+            alignItems="center"
+            display="flex"
+            gap={0.5}
+            bgcolor="primary.main"
+            borderRadius={5}
+            py={0.7}
+            px={1.3}
           >
-            4.5
-          </Typography>
+            <StarIcon />{" "}
+            <Typography
+              lineHeight={1}
+              mb="-1px"
+              fontSize="13px"
+              color="primary.contrastText"
+            >
+              4.5
+            </Typography>
+          </Box>
         </Box>
-      </Box>
+      </MuiLink>
+
       {/* header */}
 
       <Box
@@ -68,11 +82,32 @@ const ProductCard: FunctionComponent<IProps> = ({ product }) => {
           <Typography lineHeight={1.4} variant="button">
             ${product.price}
           </Typography>
-          <Typography fontWeight={500} lineHeight={1.4} color="text.secondary">
-            {product.name}
-          </Typography>
+          <MuiLink
+            underline="none"
+            href={`/product/${product.id}`}
+            component={Link}
+          >
+            <Typography
+              fontWeight={500}
+              lineHeight={1.4}
+              color="text.secondary"
+            >
+              {product.name}
+            </Typography>
+          </MuiLink>
         </Box>
-        <AddToCartIcon />
+        <Box
+          sx={{ cursor: "pointer", display: "flex" }}
+          onClick={() => {
+            console.log("onClick");
+
+            dispatch(
+              isProductInCart ? removeFromCart(product.id) : addToCart(product)
+            );
+          }}
+        >
+          {isProductInCart ? <RemoveFromCartIcon /> : <AddToCartIcon />}
+        </Box>
       </Box>
     </Box>
   );

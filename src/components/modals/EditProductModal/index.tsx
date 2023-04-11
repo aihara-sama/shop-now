@@ -42,7 +42,8 @@ const EditProductModal: FunctionComponent<IProps> = ({
 
   const extraProperties = filterObject(
     product,
-    (_, key) => !["id", "image", "category", "price", "name"].includes(key)
+    (_, key) =>
+      !["id", "image", "category", "price", "name", "description"].includes(key)
   );
 
   const [productExtraProperties, setProductExtraProperties] = useState<

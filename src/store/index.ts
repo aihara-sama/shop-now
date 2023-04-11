@@ -3,7 +3,8 @@ import type { Store as ReduxStore } from "redux";
 import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { appSlice } from "slices/app.slice";
-import { authSlice } from "slices/auth.slice";
+import type { ICartState } from "slices/cart.slice";
+import cartReducer from "slices/cart.slice";
 
 export const store = configureStore({
   reducer: persistReducer(
@@ -13,7 +14,7 @@ export const store = configureStore({
     },
     combineReducers({
       app: appSlice.reducer,
-      auth: authSlice.reducer,
+      cart: cartReducer,
     })
   ),
   middleware: (getDefaultMiddleware) =>
@@ -26,7 +27,9 @@ export const store = configureStore({
     }),
 });
 
-export type ApplicationState = {};
+export type ApplicationState = {
+  cart: ICartState;
+};
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 export type Store = ReduxStore<ApplicationState>;

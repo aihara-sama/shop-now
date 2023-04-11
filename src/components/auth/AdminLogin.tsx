@@ -22,7 +22,7 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import Router from "next/router";
 import { toast } from "react-hot-toast";
 
-export const Login = () => {
+export const AdminLogin = () => {
   const { t } = useTranslation("common");
   const [showPassword, setShowPassword] = React.useState<boolean>(false);
 
