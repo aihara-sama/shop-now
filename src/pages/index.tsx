@@ -1,4 +1,4 @@
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Grid, Hidden, Typography } from "@mui/material";
 import BrowseCategories from "components/BrowseCategories";
 import HeroProducts from "components/HeroProducts";
 import Services from "components/Services";
@@ -83,8 +83,12 @@ const Index = () => {
         url="https://shop-now.com"
       />
       <Box height="100%" display="flex" gap={3} pt={3}>
-        <BrowseCategories />
-        <Box flex={1}>
+        <Hidden mdDown>
+          <Box>
+            <BrowseCategories />
+          </Box>
+        </Hidden>
+        <Box flex={1} mr={2}>
           <HeroProducts />
         </Box>
       </Box>
@@ -92,48 +96,50 @@ const Index = () => {
         <Services />
       </Box>
 
-      {!!phones.length && (
-        <Box mb={5}>
-          <Typography variant="h2" mb={2}>
-            Phones
-          </Typography>
-          <Grid container spacing={3}>
-            {phones.map((phone, idx) => (
-              <Grid key={idx} item xs={12} sm={6} md={4} lg={3}>
-                <ProductCard product={phone} />
-              </Grid>
-            ))}
-          </Grid>
-        </Box>
-      )}
-      {!!furnitures.length && (
-        <Box mb={5}>
-          <Typography variant="h2" mb={2}>
-            Furnitures
-          </Typography>
-          <Grid container spacing={3}>
-            {furnitures.map((furniture, idx) => (
-              <Grid key={idx} item xs={12} sm={6} md={4} lg={3}>
-                <ProductCard product={furniture} />
-              </Grid>
-            ))}
-          </Grid>
-        </Box>
-      )}
-      {!!laptops.length && (
-        <Box mb={5}>
-          <Typography variant="h2" mb={2}>
-            Laptops
-          </Typography>
-          <Grid container spacing={3}>
-            {laptops.map((laptop, idx) => (
-              <Grid key={idx} item xs={12} sm={6} md={4} lg={3}>
-                <ProductCard product={laptop} />
-              </Grid>
-            ))}
-          </Grid>
-        </Box>
-      )}
+      <Box mr={2}>
+        {!!phones.length && (
+          <Box mb={5}>
+            <Typography variant="h2" mb={2}>
+              Phones
+            </Typography>
+            <Grid container spacing={3}>
+              {phones.map((phone, idx) => (
+                <Grid key={idx} item xs={12} sm={6} md={4} lg={3}>
+                  <ProductCard product={phone} />
+                </Grid>
+              ))}
+            </Grid>
+          </Box>
+        )}
+        {!!furnitures.length && (
+          <Box mb={5}>
+            <Typography variant="h2" mb={2}>
+              Furnitures
+            </Typography>
+            <Grid container spacing={3}>
+              {furnitures.map((furniture, idx) => (
+                <Grid key={idx} item xs={12} sm={6} md={4} lg={3}>
+                  <ProductCard product={furniture} />
+                </Grid>
+              ))}
+            </Grid>
+          </Box>
+        )}
+        {!!laptops.length && (
+          <Box mb={5}>
+            <Typography variant="h2" mb={2}>
+              Laptops
+            </Typography>
+            <Grid container spacing={3}>
+              {laptops.map((laptop, idx) => (
+                <Grid key={idx} item xs={12} sm={6} md={4} lg={3}>
+                  <ProductCard product={laptop} />
+                </Grid>
+              ))}
+            </Grid>
+          </Box>
+        )}
+      </Box>
     </Layout>
   );
 };

@@ -102,9 +102,11 @@ const Products = () => {
           <TableHead>
             <TableRow>
               <TableCell>#</TableCell>
-              <TableCell>Product name</TableCell>
-              <TableCell>Product price</TableCell>
-              <TableCell>Product category</TableCell>
+              <TableCell sx={{ whiteSpace: "nowrap" }}>Product name</TableCell>
+              <TableCell sx={{ whiteSpace: "nowrap" }}>Product price</TableCell>
+              <TableCell sx={{ whiteSpace: "nowrap" }}>
+                Product category
+              </TableCell>
               <TableCell>Actions 1</TableCell>
               <TableCell>Actions 2</TableCell>
             </TableRow>

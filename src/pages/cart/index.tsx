@@ -2,6 +2,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import {
   Box,
   Button,
+  Link as MuiLink,
   Table,
   TableBody,
   TableCell,
@@ -11,6 +12,7 @@ import {
 } from "@mui/material";
 import AddIcon from "components/icons/Add";
 import { Layout } from "components/layouts/Layout";
+import Link from "next/link";
 import type { FunctionComponent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -26,23 +28,28 @@ const PoductRow: FunctionComponent<{ product: IProduct; idx: number }> = ({
   idx,
 }) => {
   const dispatch = useDispatch();
-  const { products } = useSelector<ApplicationState, ApplicationState["cart"]>(
-    (state) => state.cart
-  );
+
   return (
     <TableRow
       key={idx}
       sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
     >
       <TableCell component="th" scope="row">
-        <Box key={idx} display="flex" gap={1}>
-          <img
-            src={product.image || process.env.DEFAULT_PRODUCT_IMAGE_URL}
-            width={26}
-            alt={product.name}
-          />
-          <Typography>{product.name}</Typography>
-        </Box>
+        <MuiLink
+          underline="none"
+          color="text.secondary"
+          component={Link}
+          href={`/product/${product.id}`}
+        >
+          <Box key={idx} display="flex" gap={1}>
+            <img
+              src={product.image || process.env.DEFAULT_PRODUCT_IMAGE_URL}
+              width={26}
+              alt={product.name}
+            />
+            <Typography>{product.name}</Typography>
+          </Box>
+        </MuiLink>
       </TableCell>
       <TableCell>${product.price}</TableCell>
 
@@ -70,12 +77,7 @@ const PoductRow: FunctionComponent<{ product: IProduct; idx: number }> = ({
           </Button>
         </Box>
       </TableCell>
-      <TableCell>
-        $
-        {products
-          .filter((p) => p.id === product.id)
-          .reduce((acc, val) => acc + +val.price, 0)}
-      </TableCell>
+      <TableCell>${(+product.price * +product.amount) as number}</TableCell>
       <TableCell>
         <CloseIcon
           sx={{
@@ -110,7 +112,7 @@ const Cart = () => {
         </Typography>
         <Button disabled={!products.length}>Purchase</Button>
       </Box>
-      <Box>
+      <Box overflow="auto">
         <Table sx={{ minWidth: 650 }} aria-label="simple table" stickyHeader>
           <TableHead>
             <TableRow>

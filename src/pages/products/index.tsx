@@ -1,4 +1,4 @@
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Grid, Hidden, Typography } from "@mui/material";
 import BrowseCategories from "components/BrowseCategories";
 import ProductCard from "components/common/ProductCard";
 import { Layout } from "components/layouts/Layout";
@@ -62,10 +62,12 @@ const Products = () => {
 
   return (
     <Layout>
-      <Box mt={3} display="flex" gap={3}>
-        <Box>
-          <BrowseCategories />
-        </Box>
+      <Box mt={3} display="flex" gap={3} pr={2}>
+        <Hidden mdDown>
+          <Box>
+            <BrowseCategories />
+          </Box>
+        </Hidden>
         <Box sx={{ flex: 1 }}>
           {!isLoading && !products.length && (
             <Typography variant="h3" color="text.secondary">

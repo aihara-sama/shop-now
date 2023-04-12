@@ -38,7 +38,7 @@ const AdminLayout: FC<PropsWithChildren> = ({ children }) => {
           component="section"
           sx={{ height: "100%", display: "flex", gap: 3, pt: 8 }}
         >
-          <Box flexBasis={200}>
+          <Box>
             <Logo />
             <Box
               display="flex"
@@ -97,9 +97,20 @@ const AdminLayout: FC<PropsWithChildren> = ({ children }) => {
               </Box>
             </Box>
           </Box>
-          <Box display="flex" flexDirection="column" gap={3} flex={1}>
+          <Box
+            sx={{ overflow: "auto" }}
+            flex={1}
+            display="flex"
+            flexDirection="column"
+            gap={3}
+          >
             <Box display="flex" gap={2} alignItems="center">
-              <TextField fullWidth size="small" label="Search" />
+              <TextField
+                sx={{ flex: 1 }}
+                fullWidth
+                size="small"
+                label="Search"
+              />
               <Button
                 onClick={() => setIsNewProductModalOpen(true)}
                 sx={{ whiteSpace: "nowrap", py: 0.9, px: 2.4 }}

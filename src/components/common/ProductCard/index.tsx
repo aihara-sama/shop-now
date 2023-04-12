@@ -1,7 +1,6 @@
 import { Box, Link as MuiLink, Typography } from "@mui/material";
 import AddToCartIcon from "components/icons/AddToCart";
 import RemoveFromCartIcon from "components/icons/RemoveFromCart";
-import StarIcon from "components/icons/Star";
 import Link from "next/link";
 import type { FunctionComponent } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -43,28 +42,6 @@ const ProductCard: FunctionComponent<IProps> = ({ product }) => {
               height: "100%",
             }}
           />
-          <Box
-            bottom="8px"
-            left="8px"
-            position="absolute"
-            alignItems="center"
-            display="flex"
-            gap={0.5}
-            bgcolor="primary.main"
-            borderRadius={5}
-            py={0.7}
-            px={1.3}
-          >
-            <StarIcon />{" "}
-            <Typography
-              lineHeight={1}
-              mb="-1px"
-              fontSize="13px"
-              color="primary.contrastText"
-            >
-              4.5
-            </Typography>
-          </Box>
         </Box>
       </MuiLink>
 
