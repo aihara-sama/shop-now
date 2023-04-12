@@ -99,8 +99,6 @@ const ProductCard: FunctionComponent<IProps> = ({ product }) => {
         <Box
           sx={{ cursor: "pointer", display: "flex" }}
           onClick={() => {
-            console.log("onClick");
-
             dispatch(
               isProductInCart ? removeFromCart(product.id) : addToCart(product)
             );

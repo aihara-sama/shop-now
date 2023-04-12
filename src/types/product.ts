@@ -6,7 +6,7 @@ export interface IProduct {
   image?: string;
   description: string;
 
-  [key: string]: string;
+  [key: string]: string | number;
 }
 
 export enum Categories {
